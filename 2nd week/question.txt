@@ -1,0 +1,36 @@
+CS224: Algorithms Lab
+
+Assignment No - 2
+
+Submission deadline - 17.08.2016
+
+Write a recursive C function to find the median of n positive integers. [Hint: A main function will read n and the n integers storing them in a global array and call the recursive function. At the end of the call, it will print the median value returned. The recursive function, will work on a part of the array indexed from i to j, in general. The main function will call it from 1 to n. The recursive function will select the last element, j of the array portion under consideration and will partition the rest of the array from i to j-1 into two parts by identifying those which are less than or equal to and those which are greater than or equal to the selected element. It will then make appropriate recursive calls to solve the problem. Find the n/2 th element when n is even and (n+1)/2 th element when n is odd.]
+
+Case I: 
+Input: 
+     n = 7
+    X[n] = {9, 3, 6, 8, 2, 7, 1}
+Output: 
+    	6
+
+Case II:
+Input: 
+    n = 6
+    X[n] = { 9, 3, 6, 8, 2, 7}
+Output: 
+    6
+
+
+Filename: assg02a.c
+
+
+Read two integers n and r where n > r. Read a set of n distinct characters and print all possible permutations of size r from this set of n characters without repetition.
+
+Input:
+    n = 3 
+    X[n] = {c,a,t} 
+    r = 2 
+Output: 
+    ac at ct ca tc ta 
+
+Filename: assg02b.c

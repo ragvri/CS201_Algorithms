@@ -1,0 +1,152 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int value=1;
+
+int total_components=0;
+
+
+struct edge
+{
+	int identity;
+	struct edge * next;
+};
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+struct node 
+{
+	int visited;
+	char * word;
+	struct edge * head;
+};
+
+
+
+int check(char *a , char *b)
+{
+	int i , different=0;
+	for (i=0;i<5;++i)
+	{
+		if (a[i]!=b[i])
+			different++;
+	}
+	if (different==1)
+		return 1;
+	else
+		return 0;
+}
+
+void explore(int u, struct node * a, int * pre , int * post)
+{
+	//printf("Exploring index %d\n",u);
+	a[u].visited=1;
+	printf("%s ",a[u].word);
+	pre[u]=value;
+	value++;
+	struct edge*temp=a[u].head;
+	while(temp)
+	{
+		int v=temp->identity;
+		if (a[v].visited==0)
+			explore(v,a,pre,post);
+		temp=temp->next;
+	}
+	post[u]=value;
+	value++;
+}
+		
+	
+
+void dfs(struct node * a , int * pre , int * post , int n)
+{
+	int i;
+	for (i=0;i<n;++i)
+	{
+		if (a[i].visited==0)
+			{
+				total_components++;
+				printf("\ncomponent no %d:\n",total_components);
+				explore(i,a,pre,post);
+			}
+	}
+	printf("\nThe total number of components are :%d\n",total_components);
+}
+
+
+
+
+int main (void)
+{
+	int n,i;
+	printf("Enter the total number of words\n");
+	scanf ("%d",&n);
+	printf("Enter the words\n");
+	struct node * input = malloc(n*sizeof(struct node));
+	for (i=0;i<n;++i)
+	{
+		printf("%d.",i+1);
+		input[i].word=malloc(6*sizeof(char));
+		scanf("%s",input[i].word);
+		printf("Check%s\n",input[i].word);
+		input[i].head=NULL;
+		input[i].visited=0;
+		int j;
+		for(j=0;j<i;++j)
+		{
+			if (check(input[i].word , input[j].word))
+			{
+				printf("CHeck inside check %s %s\n", input[i].word , input[j].word);
+				struct edge * temp1=malloc(sizeof(struct edge));
+				temp1->identity=i;
+				temp1->next=NULL;
+				if (input[j].head==NULL)
+					input[j].head=temp1;
+				else
+				{
+					struct edge * temp2=input[j].head;
+					input[j].head=temp1;
+					(input[j].head)->next=temp2;
+				}
+				
+				struct edge * temp3=malloc(sizeof(struct edge));
+				temp3->identity=j;
+				temp3->next=NULL;
+				if (input[i].head==NULL)
+					input[i].head=temp3;
+				else
+				{
+					struct edge * temp2=input[i].head;
+					input[i].head=temp3;
+					(input[i].head)->next=temp2;
+				}
+				
+			}
+		}
+	}
+
+	int * pre = calloc(n,sizeof(int));
+	int * post = calloc(n,sizeof(int));
+
+	printf("OK\n");
+
+	
+	printf("The adjacency list is :\n");
+	for (i=0;i<n;++i)
+	{
+		printf("%s ",input[i].word);
+		struct edge * temp=input[i].head;
+		while (temp)
+		{
+			printf("%d ",temp->identity);
+			temp=temp->next;
+		}
+		printf("\n");
+	}
+
+	dfs(input,pre,post,n);
+	return 0;
+}
+
+
